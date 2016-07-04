@@ -119,21 +119,21 @@ public class  AnimatorHolder {
     /**
      * The interface Animator listener.
      */
-    public interface AnimatorListener {
+    public abstract class AnimatorListener {
         /**
          * On start.
          */
-        void onStart();
+        void onStart(){}
 
         /**
          * On finished.
          */
-        void onFinished();
+        void onFinished(){}
 
         /**
          * On canceled.
          */
-        void onCanceled();
+        void onCanceled(){}
     }
 
 
