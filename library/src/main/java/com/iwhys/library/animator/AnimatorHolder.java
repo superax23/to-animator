@@ -70,6 +70,12 @@ public class  AnimatorHolder {
     private boolean mCacheItem = true;
 
     /**
+     * If the speed value is zero and this value is true,
+     * when the only item finished, it will continue run until the total time is over.
+     */
+    private boolean mFillAfter;
+
+    /**
      * The total duration of the animator
      */
     private long mTotalDuration = -1;
@@ -182,6 +188,16 @@ public class  AnimatorHolder {
      */
     public AnimatorHolder listener(AnimatorListener listener){
         mListener = listener;
+        return this;
+    }
+
+    /**
+     * If the value is true, the only item will run until the total time is over.
+     * @param fillAfter boolean
+     * @return the animator holder
+     */
+    public AnimatorHolder fillAfter(boolean fillAfter){
+        mFillAfter = fillAfter;
         return this;
     }
 
@@ -328,7 +344,7 @@ public class  AnimatorHolder {
         Iterator<AnimatorItem> iterator = mRunningList.iterator();
         while (iterator.hasNext()) {
             AnimatorItem item = iterator.next();
-            if (item.isFinished()) {
+            if (item.isFinished() && !(mSpeed ==0 && mFillAfter)) {
                 iterator.remove();
                 if (mCacheItem){
                     mRecyclerSet.add(item);
