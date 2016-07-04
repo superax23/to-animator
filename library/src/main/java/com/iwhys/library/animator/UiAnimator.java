@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -94,7 +95,8 @@ public class UiAnimator implements IAnimator {
      * @param canvas the canvas
      */
     public void onDraw(Canvas canvas) {
-        Iterator<AnimatorHolder> iterator = mAnimatorItemsContainer.iterator();
+        List<AnimatorHolder> list = getSnapshot(mAnimatorItemsContainer);
+        Iterator<AnimatorHolder> iterator = list.iterator();
         while (iterator.hasNext()){
             AnimatorHolder holder = iterator.next();
             if (holder.isCanceled() || holder.isFinished()){
@@ -120,6 +122,14 @@ public class UiAnimator implements IAnimator {
         if (mTarget instanceof ViewGroup){
             ((ViewGroup) mTarget).setWillNotDraw(false);
         }
+    }
+
+    private static <T> List<T> getSnapshot(Collection<T> src){
+        List<T> result = new ArrayList<>(src.size());
+        for (T item : src) {
+            result.add(item);
+        }
+        return result;
     }
 
 }
