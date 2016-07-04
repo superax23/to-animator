@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Author:      iwhys
@@ -18,7 +18,7 @@ import java.util.Set;
  */
 public class UiAnimator implements IAnimator {
 
-    private final Set<AnimatorHolder> mAnimatorItemsContainer = new HashSet<>();
+    private final List<AnimatorHolder> mAnimatorItemsContainer = new ArrayList<>();
 
     /**
      * The target

@@ -125,7 +125,7 @@ public class  AnimatorHolder {
     /**
      * The interface Animator listener.
      */
-    public abstract class AnimatorListener {
+    public static abstract class AnimatorListener {
         /**
          * On start.
          */
