@@ -417,7 +417,7 @@ public class  AnimatorHolder {
             return;
         }
         long now = System.currentTimeMillis();
-        item.mCreateTime = now;
+        item.mStartTime = now;
         item.mOriginRect.set(mOriginRect);
         item.mWidth = mWidth;
         item.mHeight = mHeight;
@@ -521,7 +521,7 @@ public class  AnimatorHolder {
         if (totalDuration >= 0){
             if (!mRunningList.isEmpty()){
                 AnimatorItem lastItem = mRunningList.get(mRunningList.size() - 1);
-                otherResult = startTime + totalDuration + startDelayed - lastItem.mCreateTime > lastItem.mDuration;
+                otherResult = startTime + totalDuration + startDelayed - lastItem.mStartTime > lastItem.mDuration;
             } else {
                 /**
                  * For the case that the animator is finished, and the running list is empty
@@ -558,8 +558,19 @@ public class  AnimatorHolder {
          */
         protected int mHeight;
 
-        private long mCreateTime;
+        /**
+         * The animator's start time
+         */
+        private long mStartTime;
+
+        /**
+         * The animator's duration
+         */
         private long mDuration = 1000;
+
+        /**
+         * The animator's time interpolator
+         */
         private TimeInterpolator mInterpolator = new LinearInterpolator();
 
         /**
@@ -623,7 +634,7 @@ public class  AnimatorHolder {
          * @return valid value[0, 1]
          */
         float getInputValue() {
-            return (System.currentTimeMillis() - mCreateTime) * 1.f / mDuration;
+            return (System.currentTimeMillis() - mStartTime) * 1.f / mDuration;
         }
 
         /**

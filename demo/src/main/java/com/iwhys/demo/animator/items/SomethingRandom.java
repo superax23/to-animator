@@ -41,7 +41,7 @@ public class SomethingRandom extends AnimatorHolder.AnimatorItem {
     private Drawable mDrawable;
 
     public SomethingRandom() {
-        mDrawable = ContextCompat.getDrawable(MyApp.getInstance(), mDrawableList[(int) (Math.random() * 3)]);
+        mDrawable = ContextCompat.getDrawable(MyApp.getInstance(), mDrawableList[(int) (Math.random() * mDrawableList.length)]);
         int w = mDrawable.getIntrinsicWidth();
         int h = mDrawable.getIntrinsicHeight();
         mCurrentRect.set(-w >> 1, -h >> 1, w >> 1, h >> 1);
