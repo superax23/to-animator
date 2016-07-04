@@ -657,7 +657,7 @@ public class  AnimatorHolder {
          * @param max the max
          * @return the float
          */
-        protected static float random(float max){
+        public static float random(float max){
             return random(max, 0);
         }
 
@@ -668,7 +668,7 @@ public class  AnimatorHolder {
          * @param min the min
          * @return the float
          */
-        protected static float random(float max, float min){
+        public static float random(float max, float min){
             return (float) (Math.random() * (max - min) + min);
         }
 
