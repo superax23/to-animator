@@ -20,6 +20,9 @@ public class UiAnimator implements IAnimator {
 
     private final Set<AnimatorHolder> mAnimatorItemsContainer = new HashSet<>();
 
+    /**
+     * The target
+     */
     private Object mTarget;
 
     private int mWidth;
