@@ -121,6 +121,11 @@ public class  AnimatorHolder {
      */
     private boolean mCanceled = false;
 
+    /**
+     * Has fill after
+     */
+    private boolean mHasFillAfter = false;
+
 
     /**
      * The interface Animator listener.
@@ -129,17 +134,22 @@ public class  AnimatorHolder {
         /**
          * On start.
          */
-        void onStart(){}
+        public void onStart(){}
 
         /**
          * On finished.
          */
-        void onFinished(){}
+        public void onFinished(){}
 
         /**
          * On canceled.
          */
-        void onCanceled(){}
+        public void onCanceled(){}
+
+        /**
+         * On fill after
+         */
+        public void onFillAfter(){}
     }
 
 
@@ -344,10 +354,18 @@ public class  AnimatorHolder {
         Iterator<AnimatorItem> iterator = mRunningList.iterator();
         while (iterator.hasNext()) {
             AnimatorItem item = iterator.next();
-            if (item.isFinished() && !(mSpeed ==0 && mFillAfter)) {
-                iterator.remove();
-                if (mCacheItem){
-                    mRecyclerSet.add(item);
+            if (item.isFinished()) {
+                if (mSpeed ==0 && mFillAfter){
+                    if (mListener != null && !mHasFillAfter){
+                        mHasFillAfter = true;
+                        mListener.onFillAfter();
+                    }
+                    item.onDraw(canvas, mPaint);
+                } else {
+                    iterator.remove();
+                    if (mCacheItem){
+                        mRecyclerSet.add(item);
+                    }
                 }
             } else {
                 item.onDraw(canvas, mPaint);
