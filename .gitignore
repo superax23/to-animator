@@ -1,7 +1,5 @@
 *.iml
 .gradle
-/gradlew.bat
-/gradlew
 /local.properties
 /.idea
 .DS_Store
