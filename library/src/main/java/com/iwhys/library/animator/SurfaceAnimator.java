@@ -47,19 +47,18 @@ public class SurfaceAnimator implements IAnimator {
         mHeight = height;
     }
 
-    @Override
-    public void start(){
+    private void initAnimator(){
         mDrawTask.startAnimator();
     }
 
     @Override
-    public void pause(){
+    public void stop(){
         mDrawTask.stopAnimator();
     }
 
     @Override
-    public void stop(){
-        pause();
+    public void destroy(){
+        stop();
         mDrawTask.mAnimatorItemsContainer.clear();
         AnimatorHolder.clear();
         mSurfaceView = null;
@@ -71,7 +70,10 @@ public class SurfaceAnimator implements IAnimator {
     }
 
     @Override
-    public void add(AnimatorHolder holder){
+    public void start(AnimatorHolder holder){
+        if (!mDrawTask.isAnimatorRunning()){
+            initAnimator();
+        }
         holder.setSize(mWidth, mHeight);
         mDrawTask.mAnimatorItemsContainer.add(holder);
     }
@@ -104,6 +106,10 @@ public class SurfaceAnimator implements IAnimator {
             mSurfaceHolder = surfaceHolder;
         }
 
+        boolean isAnimatorRunning(){
+            return mValueAnimator != null && mValueAnimator.isRunning();
+        }
+
         /**
          * Start animator.
          */
@@ -126,6 +132,7 @@ public class SurfaceAnimator implements IAnimator {
         void stopAnimator(){
             if (mValueAnimator != null && mValueAnimator.isRunning()){
                 mValueAnimator.cancel();
+                mValueAnimator = null;
             }
         }
 
@@ -149,6 +156,10 @@ public class SurfaceAnimator implements IAnimator {
          */
         void onDraw(Canvas canvas) {
             clearCanvas(canvas);
+            if (mAnimatorItemsContainer.isEmpty()){
+                stopAnimator();
+                return;
+            }
             Iterator<AnimatorHolder> iterator = mAnimatorItemsContainer.iterator();
             while (iterator.hasNext()){
                 AnimatorHolder holder = iterator.next();

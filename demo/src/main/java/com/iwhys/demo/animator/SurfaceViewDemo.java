@@ -41,15 +41,15 @@ public class SurfaceViewDemo extends SurfaceView implements SurfaceHolder.Callba
         Rect rect = new Rect(x - 10, y - 10, x + 10, y + 10);
         AnimatorHolder holder = AnimatorHolder.obtain(SomethingRandom.class).speed(100).originRect(rect);
         AnimatorHolder wave = AnimatorHolder.obtain(CircleWave.class).totalDuration(2000).speed(100).originRect(rect);
-        mAnimator.add(holder);
-        mAnimator.add(wave);
+        mAnimator.start(holder);
+        mAnimator.start(wave);
         return true;
     }
 
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        mAnimator.start();
+
     }
 
     @Override
@@ -59,12 +59,12 @@ public class SurfaceViewDemo extends SurfaceView implements SurfaceHolder.Callba
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        mAnimator.pause();
+        mAnimator.stop();
     }
 
     @Override
     protected void onDetachedFromWindow() {
+        mAnimator.destroy();
         super.onDetachedFromWindow();
-        mAnimator.stop();
     }
 }

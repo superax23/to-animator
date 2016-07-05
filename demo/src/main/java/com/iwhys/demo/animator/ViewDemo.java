@@ -41,8 +41,8 @@ public class ViewDemo extends View {
         if (event.getAction() == MotionEvent.ACTION_UP){
             AnimatorHolder randomDrawable = AnimatorHolder.obtain(SomethingRandom.class).speed(100).originRect(rect);
             AnimatorHolder wave = AnimatorHolder.obtain(CircleWave.class).totalDuration(3000).speed(200).startDelayed(500).originRect(rect);
-            mAnimator.add(randomDrawable);
-            mAnimator.add(wave);
+            mAnimator.start(randomDrawable);
+            mAnimator.start(wave);
         }
         return true;
     }
@@ -57,9 +57,7 @@ public class ViewDemo extends View {
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         super.onWindowFocusChanged(hasWindowFocus);
         if (!hasWindowFocus){
-            mAnimator.pause();
-        } else {
-            mAnimator.start();
+            mAnimator.stop();
         }
     }
 
@@ -71,7 +69,7 @@ public class ViewDemo extends View {
 
     @Override
     protected void onDetachedFromWindow() {
-        mAnimator.stop();
+        mAnimator.destroy();
         super.onDetachedFromWindow();
     }
 }

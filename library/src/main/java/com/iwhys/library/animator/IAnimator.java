@@ -17,24 +17,19 @@ public interface IAnimator {
     void targetSizeChanged(int width, int height);
 
     /**
-     * Start.
+     * Destroy.
      */
-    void start();
+    void destroy();
 
     /**
-     * Pause.
-     */
-    void pause();
-
-    /**
-     * Stop.
-     */
-    void stop();
-
-    /**
-     * Add.
+     * Start
      *
      * @param holder the holder
      */
-    void add(AnimatorHolder holder);
+    void start(AnimatorHolder holder);
+
+    /**
+     * Stop
+     */
+    void stop();
 }

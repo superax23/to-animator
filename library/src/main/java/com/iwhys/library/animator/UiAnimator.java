@@ -42,17 +42,7 @@ public class UiAnimator implements IAnimator {
         assertTarget();
     }
 
-    @Override
-    public void targetSizeChanged(int width, int height){
-        mWidth = width;
-        mHeight = height;
-        for (AnimatorHolder holder : mAnimatorItemsContainer) {
-            holder.setSize(mWidth, mHeight);
-        }
-    }
-
-    @Override
-    public void start(){
+    private void initAnimator(){
         mValueAnimator = ValueAnimator.ofInt(0, 1);
         mValueAnimator.setRepeatCount(ValueAnimator.INFINITE);
         mValueAnimator.setInterpolator(new LinearInterpolator());
@@ -66,24 +56,37 @@ public class UiAnimator implements IAnimator {
     }
 
     @Override
-    public void pause(){
-        if (mValueAnimator != null && mValueAnimator.isRunning()){
-            mValueAnimator.cancel();
+    public void targetSizeChanged(int width, int height){
+        mWidth = width;
+        mHeight = height;
+        for (AnimatorHolder holder : mAnimatorItemsContainer) {
+            holder.setSize(mWidth, mHeight);
         }
     }
 
     @Override
-    public void stop(){
-        pause();
-        mAnimatorItemsContainer.clear();
-        AnimatorHolder.clear();
-        mTarget = null;
+    public void start(AnimatorHolder holder) {
+        if (!(mValueAnimator != null && mValueAnimator.isRunning())){
+            initAnimator();
+        }
+        holder.setSize(mWidth, mHeight);
+        mAnimatorItemsContainer.add(holder);
     }
 
     @Override
-    public void add(AnimatorHolder holder){
-        holder.setSize(mWidth, mHeight);
-        mAnimatorItemsContainer.add(holder);
+    public void stop() {
+        if (mValueAnimator != null && mValueAnimator.isRunning()){
+            mValueAnimator.cancel();
+            mValueAnimator = null;
+        }
+    }
+
+    @Override
+    public void destroy(){
+        stop();
+        mAnimatorItemsContainer.clear();
+        AnimatorHolder.clear();
+        mTarget = null;
     }
 
     /**
@@ -96,6 +99,13 @@ public class UiAnimator implements IAnimator {
      */
     public void onDraw(Canvas canvas) {
         List<AnimatorHolder> list = getSnapshot(mAnimatorItemsContainer);
+        /**
+         * stop when mAnimatorItemsContainer is empty
+         */
+        if (list.isEmpty()){
+            stop();
+            return;
+        }
         Iterator<AnimatorHolder> iterator = list.iterator();
         while (iterator.hasNext()){
             AnimatorHolder holder = iterator.next();
