@@ -20,8 +20,8 @@ public class CircleWave extends AnimatorHolder.AnimatorItem {
 
     private final static int mOffset = 100;
     private final static int mStrokeWidth = 8;
-    private final static int mEdgeColor = Color.parseColor("#ffff0000");
-    private final static int mCenterColor = Color.parseColor("#aaff0000");
+    private final static int mEdgeColor = Color.LTGRAY;
+    private final static int mCenterColor = Color.GRAY;
 
     @Override
     protected void onAttached() {

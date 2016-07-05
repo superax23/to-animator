@@ -2,15 +2,15 @@ package com.iwhys.demo.animator;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.iwhys.demo.animator.items.CircleWave;
-import com.iwhys.demo.animator.items.SomethingRandom;
 import com.iwhys.library.animator.AnimatorHolder;
-import com.iwhys.library.animator.IAnimator;
 import com.iwhys.library.animator.UiAnimator;
 
 
@@ -22,27 +22,30 @@ import com.iwhys.library.animator.UiAnimator;
  */
 public class ViewDemo extends View {
 
-    private final IAnimator mAnimator;
+    private final UiAnimator mAnimator;
+    private final AnimatorHolder mAnimatorHolder;
 
-    public ViewDemo(Context context) {
-        this(context, null);
+    private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+    public ViewDemo(Context context, AnimatorHolder animatorHolder) {
+        this(context, null, animatorHolder);
     }
 
-    public ViewDemo(Context context, AttributeSet attrs) {
+    public ViewDemo(Context context, AttributeSet attrs, AnimatorHolder animatorHolder) {
         super(context, attrs);
         mAnimator = new UiAnimator(this);
+        mAnimatorHolder = animatorHolder;
+        mPaint.setColor(Color.DKGRAY);
+        mPaint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20, context.getResources().getDisplayMetrics()));
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int x = (int) event.getX();
         int y = (int) event.getY();
-        Rect rect = new Rect(x - 10, y - 10, x + 10, y + 10);
+        Rect rect = new Rect(x - 20, y - 20, x + 20, y + 20);
         if (event.getAction() == MotionEvent.ACTION_UP){
-            AnimatorHolder randomDrawable = AnimatorHolder.obtain(SomethingRandom.class).speed(100).originRect(rect);
-            AnimatorHolder wave = AnimatorHolder.obtain(CircleWave.class).totalDuration(3000).speed(200).startDelayed(500).originRect(rect);
-            mAnimator.start(randomDrawable);
-            mAnimator.start(wave);
+            mAnimator.start(mAnimatorHolder.originRect(rect));
         }
         return true;
     }
@@ -61,10 +64,17 @@ public class ViewDemo extends View {
         }
     }
 
+    private boolean mHasDrawText = false;
+    private final static String TEXT = "Tap the screen to start.";
 
     @Override
     protected void onDraw(Canvas canvas) {
-        ((UiAnimator) mAnimator).onDraw(canvas);
+        if (!mHasDrawText){
+            mHasDrawText = true;
+            int value = Math.round(mPaint.measureText(TEXT));
+            canvas.drawText(TEXT, (getWidth() - value) >> 1, getHeight() >> 1, mPaint);
+        }
+        mAnimator.onDraw(canvas);
     }
 
     @Override

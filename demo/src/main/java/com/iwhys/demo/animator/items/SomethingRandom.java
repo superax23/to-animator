@@ -51,7 +51,7 @@ public class SomethingRandom extends AnimatorHolder.AnimatorItem {
 
     @Override
     protected void onAttached() {
-        setDuration(4000);
+        setDuration(5000);
         setInterpolator(mInterpolator);
         Path path = createPath();
         mPathMeasure = new PathMeasure(path, false);
