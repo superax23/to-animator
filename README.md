@@ -2,9 +2,12 @@
 A simple android library for multi elements animator.
 
 ## Demo
+* Simple - with only one animator item.
 ![image](https://github.com/iwhys/to-animator/blob/master/screenshot/random.gif)
 ![image](https://github.com/iwhys/to-animator/blob/master/screenshot/wave.gif)
 
+* Compose - with multi animator items, and this demo relates to a project of the company, can not be open source.
+![image](https://github.com/iwhys/to-animator/blob/master/screenshot/starry.gif)
 ## Usage
 
 This repository can be found on JitPack:
