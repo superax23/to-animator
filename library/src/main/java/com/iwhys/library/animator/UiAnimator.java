@@ -79,12 +79,12 @@ public class UiAnimator implements IAnimator {
             mValueAnimator.cancel();
             mValueAnimator = null;
         }
+        mAnimatorItemsContainer.clear();
     }
 
     @Override
     public void destroy(){
         stop();
-        mAnimatorItemsContainer.clear();
         AnimatorHolder.clear();
         mTarget = null;
     }
